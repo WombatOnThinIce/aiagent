@@ -23,7 +23,10 @@ def main():
             }
         ],
     )
-
+    if response.usage == None:
+        raise RuntimeError("No Usage property available. Possible failed API request")
+    print(f"Prompt tokens: {response.usage.prompt_tokens}")
+    print(f"Response tokens: {response.usage.completion_tokens}")
     print(response.choices[0].message.content)
 
 
