@@ -1,3 +1,4 @@
+import argparse
 import os
 
 from dotenv import load_dotenv
@@ -5,6 +6,10 @@ from openai import OpenAI
 
 
 def main():
+    parser = argparse.ArgumentParser(description="Chatbot")
+    parser.add_argument("user_prompt", type=str, help="User prompt to the AI model")
+    args = parser.parse_args()
+
     load_dotenv()
     api_key = os.environ.get("OPENROUTER_API_KEY")
     if not api_key:
@@ -14,14 +19,11 @@ def main():
         api_key=api_key,
     )
 
+    messages = [{"role": "user", "content": args.user_prompt}]
+
     response = client.chat.completions.create(
         model="openrouter/free",
-        messages=[
-            {
-                "role": "user",
-                "content": "Why is Boot.dev such a great place to learn backend development? Use one paragraph maximum.",
-            }
-        ],
+        messages=messages,
     )
     if response.usage == None:
         raise RuntimeError("No Usage property available. Possible failed API request")
