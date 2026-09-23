@@ -1,6 +1,5 @@
 import argparse
 import os
-from tabnanny import verbose
 
 from dotenv import load_dotenv
 from openai import OpenAI
@@ -20,16 +19,15 @@ def main():
         base_url="https://openrouter.ai/api/v1",
         api_key=api_key,
     )
-
     messages = [{"role": "user", "content": args.user_prompt}]
 
     response = client.chat.completions.create(
         model="openrouter/free",
         messages=messages,
     )
-    if response.usage == None:
+    if not response.usage:
         raise RuntimeError("No Usage property available. Possible failed API request")
-    if args.verbose == True:
+    if args.verbose:
         print(f"User prompt: {args.user_prompt}")
         print(f"Prompt tokens: {response.usage.prompt_tokens}")
         print(f"Response tokens: {response.usage.completion_tokens}")
