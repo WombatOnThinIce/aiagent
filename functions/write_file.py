@@ -33,6 +33,10 @@ schema_write_file = {
                     "type": "string",
                     "description": "File path of file to write to, relative to the working directory (default is the working directory itself)",
                 },
+                "content": {
+                    "type": "string",
+                    "description": "Content of string to write to file",
+                },
             },
         },
     },
