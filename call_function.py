@@ -16,7 +16,7 @@ available_functions = [
 def call_function(tool_call, verbose: bool = False) -> dict:
     function_name = tool_call.function.name
     function_args = json.loads(tool_call.function.arguments or "{}")
-    function_args["working_directory"] = "./calculator"
+    function_args["working_directory"] = "./calculator" #maybe set in config
 
     if verbose:
         print(f" - Calling function: {function_name}({function_args})")
@@ -36,3 +36,11 @@ def call_function(tool_call, verbose: bool = False) -> dict:
             "tool_call_id": tool_call.id,
             "content": f"Error: Unknown function: {function_name}",
         }
+
+    result = function_map[function_name](**function_args)
+
+    return {
+        "role": "tool",
+        "tool_call_id": tool_call.id,
+        "content": result,
+    }

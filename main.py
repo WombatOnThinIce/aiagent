@@ -5,7 +5,7 @@ import os
 from dotenv import load_dotenv
 from openai import OpenAI
 
-from call_function import available_functions
+from call_function import available_functions, call_function
 from prompts import system_prompt
 
 
@@ -39,6 +39,11 @@ def main():
     for tool_call in message.tool_calls:
         function_args = json.loads(tool_call.function.arguments or "{}")
         print(f"Calling function: {tool_call.function.name}({function_args})")
+        result_message = call_function(tool_call, args.verbose)
+        if not result_message["content"]:
+            raise Exception("Tool call did not return result message")
+        if args.verbose:
+            print(f"-> {result_message['content']}")
 
     if not response.usage:
         raise RuntimeError("No Usage property available. Possible failed API request")
