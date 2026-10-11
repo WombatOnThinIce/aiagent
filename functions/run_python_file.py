@@ -47,9 +47,9 @@ schema_run_python_file = {
         "parameters": {
             "type": "object",
             "properties": {
-                "file": {
+                "file_path": {
                     "type": "string",
-                    "description": "Directory path to a python file to run, relative to the working directory (default is the working directory itself)",
+                    "description": "File path to a python file to run, relative to the working directory (default is the working directory itself)",
                 },
                 "args": {
                     "type": "list of strings",
