@@ -1,6 +1,7 @@
 import json
 from collections.abc import Callable
 
+from config import WORKING_DIRECTORY
 from functions.get_file_content import get_file_content, schema_get_file_content
 from functions.get_files_info import get_files_info, schema_get_files_info
 from functions.run_python_file import run_python_file, schema_run_python_file
@@ -16,7 +17,7 @@ available_functions = [
 def call_function(tool_call, verbose: bool = False) -> dict:
     function_name = tool_call.function.name
     function_args = json.loads(tool_call.function.arguments or "{}")
-    function_args["working_directory"] = "./calculator" #maybe set in config
+    function_args["working_directory"] = WORKING_DIRECTORY
 
     if verbose:
         print(f" - Calling function: {function_name}({function_args})")
